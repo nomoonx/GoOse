@@ -73,6 +73,6 @@ func GetDefaultConfiguration(args ...string) Configuration {
 		stopWordsPath:           stopWordsPath,
 		stopWords:               stopWords,
 		parser:                  NewParser(),
-		timeout:                 time.Duration(jsconfiguration.Int("timeout", 5)) * time.Second,
+		timeout:                 time.Duration(jsconfiguration.Int("timeout", 30)) * time.Second,
 	}
 }
