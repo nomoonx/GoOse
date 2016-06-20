@@ -141,9 +141,10 @@ func (c *Crawler) assignHTML() error {
 		cookieJar, _ := cookiejar.New(nil)
 		transport := &http.Transport{DisableKeepAlives: true}
 		client := &http.Client{
-			Transport: transport,
-			Jar:       cookieJar,
-			Timeout:   c.config.timeout,
+			Transport:     transport,
+			Jar:           cookieJar,
+			CheckRedirect: noMoonCheckRedirect,
+			Timeout:       c.config.timeout,
 		}
 		req, err := http.NewRequest("GET", c.url, nil)
 		if err != nil {
@@ -161,6 +162,13 @@ func (c *Crawler) assignHTML() error {
 			return err
 		}
 		c.RawHTML = string(contents)
+	}
+	return nil
+}
+
+func noMoonCheckRedirect(req *Request, via []*Request) error {
+	if len(via) >= 20 {
+		return errors.New("stopped after 20 redirects")
 	}
 	return nil
 }
