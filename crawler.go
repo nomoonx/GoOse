@@ -139,9 +139,11 @@ func (c *Crawler) assignParseCandidate() {
 func (c *Crawler) assignHTML() error {
 	if c.RawHTML == "" {
 		cookieJar, _ := cookiejar.New(nil)
+		transport := &http.Transport{DisableKeepAlives: true}
 		client := &http.Client{
-			Jar:     cookieJar,
-			Timeout: c.config.timeout,
+			Transport: transport,
+			Jar:       cookieJar,
+			Timeout:   c.config.timeout,
 		}
 		req, err := http.NewRequest("GET", c.url, nil)
 		if err != nil {
@@ -152,8 +154,9 @@ func (c *Crawler) assignHTML() error {
 		if err != nil {
 			return err
 		}
-		defer resp.Body.Close()
+
 		contents, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
 		if err != nil {
 			return err
 		}
