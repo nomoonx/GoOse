@@ -1,6 +1,7 @@
 package goose
 
 import (
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
@@ -166,7 +167,7 @@ func (c *Crawler) assignHTML() error {
 	return nil
 }
 
-func noMoonCheckRedirect(req *Request, via []*Request) error {
+func noMoonCheckRedirect(req *http.Request, via []*http.Request) error {
 	if len(via) >= 20 {
 		return errors.New("stopped after 20 redirects")
 	}
