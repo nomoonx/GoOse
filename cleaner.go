@@ -217,6 +217,11 @@ func (c *Cleaner) clean(article *Article) *goquery.Document {
 	docToClean = c.convertDivsToParagraphs(docToClean, "span")
 	docToClean = c.convertDivsToParagraphs(docToClean, "article")
 	docToClean = c.convertDivsToParagraphs(docToClean, "pre")
+	docToClean = c.convertDivsToParagraphs(docToClean, "h1")
+	docToClean = c.convertDivsToParagraphs(docToClean, "h2")
+	docToClean = c.convertDivsToParagraphs(docToClean, "h3")
+	docToClean = c.convertDivsToParagraphs(docToClean, "h4")
+	docToClean = c.convertDivsToParagraphs(docToClean, "h5")
 
 	return docToClean
 }
